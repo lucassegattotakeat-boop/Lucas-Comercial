@@ -14,10 +14,10 @@ export const HUBSPOT_LOST_STAGE_ID = process.env.HUBSPOT_LOST_STAGE_ID || 'close
 
 /** Nome interno das propriedades customizadas do deal no HubSpot. */
 export const DEAL_PROPERTY_MAP = {
-  etapaAnterior: 'hs_deal_stage_probability_shift_reason', // TODO: ajustar
-  motivoPerda: 'closed_lost_reason', // TODO: ajustar para a propriedade real de motivo de perda
-  canalAquisicao: 'canal_de_aquisicao', // TODO: ajustar
-  icp: 'icp', // TODO: ajustar
+  etapaAnterior: 'qual_etapa_do_funil_', // TODO: ajustar
+  motivoPerda: 'motivo_do_perdido', // TODO: ajustar para a propriedade real de motivo de perda
+  canalAquisicao: 'canal_de_aquisicao_1', // TODO: ajustar
+  icp: 'icp_lead_negocio', // TODO: ajustar
 } as const;
 
 /**
