@@ -9,6 +9,13 @@ export interface LoginActionState {
 
 const ALLOWED_DOMAIN = process.env.ALLOWED_EMAIL_DOMAIN || 'takeat.app';
 
+function isAllowedEmail(email: string): boolean {
+  if (email.endsWith(`@${ALLOWED_DOMAIN}`)) return true;
+  // Padrão usado pelo time: nome.takeat@gmail.com
+  if (/^[a-z0-9._%+-]+\.takeat@gmail\.com$/i.test(email)) return true;
+  return false;
+}
+
 export async function requestMagicLink(
   _prevState: LoginActionState,
   formData: FormData,
@@ -17,8 +24,11 @@ export async function requestMagicLink(
     .trim()
     .toLowerCase();
 
-  if (!email || !email.endsWith(`@${ALLOWED_DOMAIN}`)) {
-    return { status: 'error', message: `Use um e-mail do domínio @${ALLOWED_DOMAIN}.` };
+  if (!email || !isAllowedEmail(email)) {
+    return {
+      status: 'error',
+      message: `Use um e-mail do domínio @${ALLOWED_DOMAIN} ou do padrão nome.takeat@gmail.com.`,
+    };
   }
 
   const supabase = createServerSupabaseClient();
