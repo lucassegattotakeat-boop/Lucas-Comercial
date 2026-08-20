@@ -1,5 +1,6 @@
 'use server';
 
+import { headers } from 'next/headers';
 import { createServerSupabaseClient } from '@/lib/supabase/server';
 
 export interface LoginActionState {
@@ -14,6 +15,13 @@ function isAllowedEmail(email: string): boolean {
   // Padrão usado pelo time: nome.takeat@gmail.com
   if (/^[a-z0-9._%+-]+\.takeat@gmail\.com$/i.test(email)) return true;
   return false;
+}
+
+function getSiteOrigin(): string {
+  const requestHeaders = headers();
+  const host = requestHeaders.get('host');
+  const protocol = requestHeaders.get('x-forwarded-proto') ?? 'https';
+  return host ? `${protocol}://${host}` : 'https://lucascomercial.vercel.app';
 }
 
 export async function requestMagicLink(
@@ -34,7 +42,10 @@ export async function requestMagicLink(
   const supabase = createServerSupabaseClient();
   const { error } = await supabase.auth.signInWithOtp({
     email,
-    options: { shouldCreateUser: true },
+    options: {
+      shouldCreateUser: true,
+      emailRedirectTo: `${getSiteOrigin()}/auth/callback`,
+    },
   });
 
   if (error) {
