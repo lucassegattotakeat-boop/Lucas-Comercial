@@ -145,4 +145,4 @@ facilitar testes e ajustes.
   nomes (`Vendedor <id>`) devem ser corrigidos manualmente na tabela
   `vendors` do Supabase (ou via um painel de administração futuro).
 - Para multi-time, generalize a tabela `vendors` com uma coluna `team` e
-  parametrize `HUBSPOT_PIPELINE_ID` por time.
+  parametrize `HUBSPOT_PIPELINE_ID` por time. 
